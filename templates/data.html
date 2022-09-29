@@ -1,0 +1,50 @@
+<h1>National Exchange Company</h1>
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<style type="text/css">
+button{
+height:100px;
+width:150px;
+}
+#myInput{
+width:50%;
+padding:0 0 0 30px;
+background-color: pink;  
+border-width: 3px; 
+border-style: solid;
+}
+
+</style>
+</head>
+<body>
+
+<blockquote id="myInput">
+<p>*Performence Data*</p>
+<p>Target for the month : {{T}}</p>
+<p>Today Achivement : {{form_data['achive']}} </p>
+<p> Achive till date: {{form_data['achive_date']}} </p>
+<p>Remaining counts :{{T - (int(form_data['achive_date']))}} </p>
+<p> Days left:{{r_m}}</p>
+
+<p>Required per day :{{round((T- int(form_data['achive_date']))/r_m)}} </p>
+
+<p>Comparison with last month : {{int(form_data['achive']) - int(form_data['l_m'])}} </p>
+<p>*M2M Defference =* {{int(form_data["achive_date"]) - int(form_data["l_m_T"])}}</p>
+</blockquote>
+<button onclick="CopyToClipboard('myInput')">Copy text</button>
+
+<script type="text/javascript">
+function CopyToClipboard(id)
+{
+var r = document.createRange();
+r.selectNode(document.getElementById(id));
+window.getSelection().removeAllRanges();
+window.getSelection().addRange(r);
+document.execCommand('copy');
+window.getSelection().removeAllRanges();alert("Copied!");
+}
+</script>
+</body>
+</html>
