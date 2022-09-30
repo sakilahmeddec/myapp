@@ -1,14 +1,4 @@
-click
-colorama
+datetime
+calendar
 Flask
-fpdf
-gunicorn
-itsdangerous
-Jinja2
-MarkupSafe
-mysql
-mysql-connector-python
-mysqlclient
-passlib
-protobuf
-Werkzeug
+
