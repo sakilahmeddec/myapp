@@ -1,37 +1,26 @@
-<h1>National Exchange Company</h1>
 <!DOCTYPE html>
 <html>
 <head>
-<title></title>
-<style type="text/css">
-button{
-height:100px;
-width:150px;
-}
-#myInput{
-width:50%;
-padding:0 0 0 30px;
-background-color: pink;  
-border-width: 3px; 
-border-style: solid;
-}
+<title>Data</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-</style>
 </head>
 <body>
+<h1 class="firstDiv">National Exchange Company</h1>
 
 <blockquote id="myInput">
 <p>*Performence Data*</p>
 <p>Target for the month : {{T}}</p>
 <p>Today Achivement : {{form_data['achive']}} </p>
-<p> Achive till date: {{form_data['achive_date']}} </p>
-<p>Remaining counts :{{T - (int(form_data['achive_date']))}} </p>
+<p> Achive till date: {{a_t_d}} </p>
+<p>Remaining counts :{{T - a_t_d}} </p>
 <p> Days left:{{r_m}}</p>
 
-<p>Required per day :{{round((T- int(form_data['achive_date']))/r_m)}} </p>
+<p>Required per day :{{round((T- a_t_d)/r_m)}} </p>
 
-<p>Comparison with last month : {{int(form_data['achive']) - int(form_data['l_m'])}} </p>
-<p>*M2M Defference =* {{int(form_data["achive_date"]) - int(form_data["l_m_T"])}}</p>
+<p>Comparison with last month : {{int(form_data['achive']) - int(l_m_t)}} </p>
+<p>*M2M Defference =* {{a_t_d-last_m_t_date}}</p>
 </blockquote>
 <button onclick="CopyToClipboard('myInput')">Copy text</button>
 
