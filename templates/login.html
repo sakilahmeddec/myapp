@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title> Login Page </title>
+<style>
+Body {
+  background-color: #ecf0f3;
+}
+button {
+    color: white;
+    border: none;
+    margin-bottom: 20px;
+    background: #1DA1F2;
+    height: 40px;
+    width: 100px;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
+    transition: 0.5s;
+}
+input{
+   margin-bottom:30px;
+}
+
+input[type=text], input[type=password] {
+  border: none;
+  background: #ecf0f3;
+  padding: 20px;
+  padding-left: 10px;
+  font-size: 14px;
+  border-radius: 50px;
+  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+
+}
+ button:hover {
+    opacity: 0.7;
+}
+.cont{
+        margin:0 auto;
+        width:50%;
+    }
+.flash{
+    color:red;
+    animation: move .9s linear;
+    }
+@keyframes move{
+    from{
+    top:-20px;
+    opacity:0.1;
+    }
+    to{
+    top:10px;
+    opacity:1;
+    }
+}
+</style>
+</head>
+<body>
+    <center> <h1>  Login </h1> </center>
+    {% with messages = get_flashed_messages() %}
+   {% if messages %}
+      {% for message in messages %}
+      <span class="flash">
+         {{ message }}</span>
+      {% endfor %}
+   {% endif %}
+{% endwith %}
+    <form action="/login" method="POST">
+        <div class="cont">
+            <label>Username : </label>
+            <input type="text" placeholder="Enter Username" name="name" required>
+            <label>Password : </label>
+            <input type="password" placeholder="Enter Password" name="password" required>
+            <button type="submit">Login</button>
+        </div>
+    </form>
+</body>
+</html>
