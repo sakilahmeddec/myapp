@@ -1,11 +1,21 @@
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, request, session, redirect, flash
 import calendar
 import datetime
+from datetime import timedelta
+from functools import wraps
 import filecheck
+import mysql.connector
 
 app = Flask(__name__)
-target = 2500
+app.secret_key = 'sakil16180'
+app.config['SESSION_PERMANENT'] = False
+app.config['PERMANENT_SESSION_LIFETIME'] =  timedelta(minutes=5)
+
+target = 2700
+user_name = "sakil"
+password = "12345"
+
 date = datetime.datetime.now()
 date_month = date.month
 total_date = calendar.monthrange(date.year, date_month)[1]
@@ -16,23 +26,42 @@ else:
 
 filecheck.main()
 
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            flash("Login Needed")
+            return redirect("/login")
+
+    return wrap
+
 
 @app.route('/')
 def index():
     return render_template("index.html")
 
 
-@app.route('/bank')
-def bank():
-    return render_template("bank.html")
-
+@app.route('/login', methods=['POST','GET'])
+def login():
+    if request.method == 'POST':
+        session.pop('name', None)
+        if request.form['name'] == user_name and request.form['password'] == password:
+            session['logged_in'] = True
+            return redirect('/form')
+        else:
+            flash('Wrong Username or Password')
+    return render_template("login.html")
 
 @app.route('/form')
+@login_required
 def form():
     return render_template('form.html')
 
 
 @app.route('/data/', methods=['POST', 'GET'])
+@login_required
 def data():
     if request.method == 'GET':
         return f"The URL /data is accessed directly. Try going to '/form' to submit form"
@@ -40,6 +69,7 @@ def data():
         form_data = request.form
         file = open(f'{date.year}/{date_month}.txt', 'r')
         list_line = file.readlines()
+        file.close()
         list_line[date.day - 1] = form_data['achive']
         file = open(f'{date.year}/{date_month}.txt', 'w')
         file.writelines(list_line)
@@ -57,6 +87,18 @@ def data():
                                l_m_t=last_month_t,
                                last_m_t_date=l_t_d)
 
+@app.route('/test')
+def test():
+    db = mysql.connector.connect(host='sakil345.mysql.pythonanywhere-services.com',
+                                user='sakil345',
+                                password='root12345',
+                                database='sakildatabase')
+    mycursor = db.cursor()
+    mycursor.execute("show tables")
+    a =[]
+    for i in mycursor:
+        a.append(i)
+    return render_template("new.html", a=a)
 
-if __name__ == "__main__":
+if __name__== "__main__":
     app.run()
